@@ -38,4 +38,5 @@ if(intchan<0):
         plot_array(data[i::32])
 else:
     plot_array(data[intchan::32])
+    
 plt.show()

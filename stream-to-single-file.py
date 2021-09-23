@@ -39,7 +39,7 @@ def run_stream(args):
     start_time = time.time()
     data_length = 0
 
-    data_file = None
+    data_file=open("outputfile", "wb")
 
     while time.time() < (start_time + args.runtime):
 
@@ -47,7 +47,7 @@ def run_stream(args):
 
         data_length += len(data)
         data_len_so_far += len(data)
-        data_file=open("outputfile", "wb")
+
         data_file.write(data)
 
         if args.verbose == 1:
