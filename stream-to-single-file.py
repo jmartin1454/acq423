@@ -25,21 +25,14 @@ def run_stream(args):
     RXBUF_LEN = 4096
     cycle = 1
 
-    if args.port == "STREAM":
-        port = acq400_hapi.AcqPorts.STREAM
-    elif args.port == "SPY":
-        port = acq400_hapi.AcqPorts.DATA_SPY
-        uut.s0.CONTINUOUS = "0"
-        uut.s0.CONTINUOUS = "1"
-    else:
-        port = args.port
+    port = acq400_hapi.AcqPorts.STREAM # use the streaming port (4210)
 
     skt = socket.socket()
     skt.connect((args.uuts[0], port))
     start_time = time.time()
     data_length = 0
 
-    data_file=open("outputfile", "wb")
+    data_file=open(args.file, "wb")
 
     while time.time() < (start_time + args.runtime):
 
@@ -58,10 +51,10 @@ def run_stream(args):
 
 
 def run_main():
-    parser = argparse.ArgumentParser(description='stream to single file')
-    parser.add_argument('--runtime', default=100, type=int, help="How long to stream data for")
-    parser.add_argument('--port', default='STREAM', type=str, help="Which port to stream from. STREAM=4210, SPY=53667, other: use number provided.")
-    parser.add_argument('--verbose', default=0, type=int, help='Prints status messages as the stream is running')
+    parser=argparse.ArgumentParser(description='stream to single file')
+    parser.add_argument('--runtime',default=100,type=int,help="How long to stream data (s)")
+    parser.add_argument('--file',default='run00001.dtq',type=str,help="filename")
+    parser.add_argument('--verbose',default=0,type=int,help='Prints status messages as the stream is running')
     parser.add_argument('uuts', nargs='+', help="uuts")
     run_stream(parser.parse_args())
 
