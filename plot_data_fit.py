@@ -39,7 +39,7 @@ def plot_array(the_array):
 #print(len(data))
 #print(data[intchan::32])
 #print(len(data[intchan::32]))
-    
+
 if(intchan<0):
     for i in range(32):
         plot_array(data[i::32])
@@ -47,7 +47,7 @@ else:
     plot_array(data[intchan::32])
     
 plt.show()
-    
+
 Fs = 200000
 f = 10000
 sample = 40
