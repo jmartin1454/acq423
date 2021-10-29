@@ -24,14 +24,21 @@ parser.add_option("-p", "--points", dest="points_to_plot",
 
 intchan=int(options.channel)
 
-data=np.fromfile(options.file,dtype=np.int16)
-
 points_to_plot=int(options.points_to_plot)
 starting_index=int(options.starting_index)
 
-def plot_array(the_array):
-    plt.plot(the_array[starting_index:starting_index+points_to_plot])
+# figure out the offset in bytes
+numchan=32 # total number of channels in the module
+bytes_per_int16=2
+offset=starting_index*numchan*bytes_per_int16 # offset in bytes
 
+# figure out how many int16's to read in
+count=points_to_plot*numchan
+
+data=np.fromfile(options.file,offset=offset,count=count,dtype=np.int16)
+
+def plot_array(the_array):
+    plt.plot(the_array)
 
 if(intchan<0):
     for i in range(32):
